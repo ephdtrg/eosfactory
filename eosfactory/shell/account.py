@@ -150,6 +150,7 @@ class Eosio(interface.Account):
             config.eosio_key_private()
             )
         self.active_key = self.owner_key
+        
 
     def info(self):
         print("account object name: {}\nname: {}\n{}".format(
@@ -420,8 +421,8 @@ def create_master_account(
     account_object = Eosio(account_object_name)
 
     if is_local_testnet_running(account_object):
-        put_account_to_wallet_and_on_stack(
-            account_object_name, account_object, logger)
+        put_account_to_wallet_and_on_stack( account_object_name, account_object, logger)
+        append_account_methods_and_finish(account_object_name, account_object)
         return
 
     '''
