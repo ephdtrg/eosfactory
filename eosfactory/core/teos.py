@@ -51,9 +51,9 @@ def ABI(contract_dir_hint=None, code_name=None, include_dir=None):
             Just copying it to the target directory.
             '''.format(src))
             shutil.move(
-                srcPath, os.path.join(target_dir, 
+                srcPath, os.path.join(target_dir,
                 os.path.basename(srcPath)))
-            return    
+            return
 
     eosio_abigen = None
     try:
@@ -68,21 +68,21 @@ def ABI(contract_dir_hint=None, code_name=None, include_dir=None):
             if not os.path.splitext(file)[1].lower() in extensions:
                 continue
             command_line.append(file)
-        
+
         try:
             process(command_line)
         except Exception as e:
             raise errors.Error(str(e))
     else:
         ###########################################################################
-        # eosio.cdt is not available.        
+        # eosio.cdt is not available.
         sourcePath = srcs[0]
         source_dir = os.path.dirname(srcs[0])
 
         command_line = [
             config.abigen_exe(),
-            "-extra-arg=-c", "-extra-arg=--std=c++14", 
-            "-extra-arg=--target=wasm32", "-extra-arg=-nostdinc", 
+            "-extra-arg=-c", "-extra-arg=--std=c++14",
+            "-extra-arg=--target=wasm32", "-extra-arg=-nostdinc",
             "-extra-arg=-nostdinc++", "-extra-arg=-DABIGEN",
             "-extra-arg=-I" + config.eosio_repository_dir() + "/contracts/libc++/upstream/include",
             "-extra-arg=-I" + config.eosio_repository_dir() + "/contracts/musl/upstream/include",
@@ -121,7 +121,7 @@ def ABI(contract_dir_hint=None, code_name=None, include_dir=None):
 
 
 def WAST(
-        contract_dir_hint, code_name=None, include_dir=None, 
+        contract_dir_hint, code_name=None, include_dir=None,
         compile_only=False):
     '''Given a hint to a contract directory, produce WAST and WASM code.
     '''
@@ -145,7 +145,7 @@ def WAST(
 
     workdir_build = os.path.join(workdir, "build")
     if not os.path.exists(workdir_build):
-        os.mkdir(workdir_build)    
+        os.mkdir(workdir_build)
 
     objectFileList = []
     extensions = [".h", ".hpp", ".hxx", ".c", ".cpp",".cxx", ".c++"]
@@ -175,7 +175,7 @@ def WAST(
 
         try:
             process(command_line)
-        except Exception as e:                       
+        except Exception as e:
             raise errors.Error(str(e))
     else:
         ###########################################################################
@@ -190,11 +190,11 @@ def WAST(
                 #"-DBOOST_DISABLE_ASSERTS -DBOOST_EXCEPTION_DISABLE",
                 "-nostdlib", "-nostdlibinc", "-ffreestanding", "-nostdlib",
                 "-fno-threadsafe-statics", "-fno-rtti", "-fno-exceptions",
-                "-I", config.eosio_repository_dir() 
+                "-I", config.eosio_repository_dir()
                     + "/contracts/libc++/upstream/include",
-                "-I", config.eosio_repository_dir() 
+                "-I", config.eosio_repository_dir()
                     + "/contracts/musl/upstream/include",
-                "-I", config.eosio_repository_dir() 
+                "-I", config.eosio_repository_dir()
                     + "/externals/magic_get/include",
                 "-I", config.boost_include_dir(),
                 "-I", config.eosio_repository_dir() + "/contracts",
@@ -208,9 +208,9 @@ def WAST(
                     command_line.extend(["-I", dir])
 
             output = os.path.join(workdir_build, code_name + ".o")
-            objectFileList.append(output)        
+            objectFileList.append(output)
             command_line.extend(["-c", file, "-o", output])
-            
+
             if setup.is_print_command_line:
                 print("######## {}:".format(config.wasm_clang_exe()))
                 print(" ".join(command_line))
@@ -222,13 +222,13 @@ def WAST(
                     shutil.rmtree(workdir)
                 except:
                     pass
-                            
+
                 raise errors.Error(str(e))
 
         if not compile_only:
-            command_line = [ 
+            command_line = [
                 config.wasm_llvm_link_exe(),
-                "-only-needed", 
+                "-only-needed",
                 "-o",  workdir + "/linked.bc",
                 " ".join(objectFileList),
                 config.eosio_repository_dir() + "/build/contracts/musl/libc.bc",
@@ -241,7 +241,7 @@ def WAST(
 
             try:
                 process(command_line)
-            except Exception as e:                           
+            except Exception as e:
                 raise errors.Error(str(e))
 
             command_line = [
@@ -262,8 +262,8 @@ def WAST(
                     shutil.rmtree(workdir)
                 except:
                     pass
-                            
-                raise errors.Error(str(e))          
+
+                raise errors.Error(str(e))
 
             command_line = [
                 config.s2wasm_exe(),
@@ -282,15 +282,15 @@ def WAST(
                     shutil.rmtree(workdir)
                 except:
                     pass
-                            
+
                 raise errors.Error(str(e))
 
             logger.TRACE('''
             WAST file writen to file: {}
-            '''.format(os.path.normpath(targetPathWast)))                      
+            '''.format(os.path.normpath(targetPathWast)))
 
             command_line = [
-                config.wast2wasm_exe(), 
+                config.wast2wasm_exe(),
                 targetPathWast, target_path_wasm, "-n"]
 
             if setup.is_print_command_line:
@@ -304,7 +304,7 @@ def WAST(
                     shutil.rmtree(workdir)
                 except:
                     pass
-                            
+
                 raise errors.Error(str(e))
         try:
             shutil.rmtree(workdir)
@@ -316,24 +316,24 @@ def WAST(
     '''.format(os.path.normpath(target_path_wasm)))
 
 def template_create(
-        project_name, template_dir=None, workspace_dir=None, 
+        project_name, template_dir=None, workspace_dir=None,
         remove_existing=False, open_vscode=False, throw_exists=False):
     '''Given the project name and template name, create a smart contract project.
     '''
     project_name = project_name.strip()
 
-    template_dir = template_dir.strip()    
+    template_dir = template_dir.strip()
     template_dir = utils.wslMapWindowsLinux(template_dir)
     if not template_dir:
         template_dir = config.DEFAULT_TEMPLATE
     if not os.path.isdir(template_dir):
         template_dir = os.path.join(
-            config.eosf_dir(), TEMPLATE_CONTRACTS_DIR, template_dir) 
+            config.eosf_dir(), TEMPLATE_CONTRACTS_DIR, template_dir)
     if not os.path.isdir(template_dir):
         raise errors.Error('''
         TemplateCreate '{}' does not exist.
-        '''.format(template_dir)) 
-       
+        '''.format(template_dir))
+
     if not workspace_dir \
                             or not os.path.isabs(workspace_dir) \
                             or not os.path.exists(workspace_dir):
@@ -405,8 +405,8 @@ def template_create(
             template = template.replace(TEMPLATE_HOME, home)
             template = template.replace(TEMPLATE_ROOT, root)
             template = template.replace(TEMPLATE_EOSIO_DIR, eosio_dir)
-            
-        
+
+
         template = template.replace(
                             "@" + TEMPLATE_NAME + "@", project_name)
         with open(contract_path, "w") as output:
@@ -415,7 +415,7 @@ def template_create(
     copy_dir_contents(project_dir, template_dir, "", project_name)
     logger.TRACE('''
     * Contract project '{}' created from template '{}'
-    '''.format(project_name, project_dir))    
+    '''.format(project_name, project_dir))
 
     if open_vscode:
         if is_windows_ubuntu():
@@ -448,7 +448,7 @@ def get_pid(name=None):
     [10, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56, 61]  # ymmv
     >>> get_process_id('non-existent process')
     []
-    """    
+    """
     if not name:
         name = config.node_exe_name()
 
@@ -457,6 +457,13 @@ def get_pid(name=None):
     response = child.communicate()[0]
     return [int(pid) for pid in response.split()]
 
+def get_keosd_pid():
+    keosd_path = config.wallet_exe()
+
+    child = subprocess.Popen(
+            ['pgrep', '-u', 'pydaemon', '-f', keosd_path], stdout=subprocess.PIPE, shell=False)
+    response = child.communicate()[0]
+    return [int(pid) for pid in response.split()]
 
 def uname(options=None):
     args = ['uname']
@@ -477,8 +484,8 @@ def process(command_line, throw_error=True):
     process = subprocess.run(
         command_line,
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE) 
-    
+        stderr=subprocess.PIPE)
+
     out_msg = process.stdout.decode("utf-8")
     out_err = process.stderr.decode("utf-8")
     returncode = process.returncode
@@ -489,7 +496,7 @@ def process(command_line, throw_error=True):
 
 
 def get_target_dir(source_dir):
-    
+
     target_dir = os.path.join(source_dir, "..", "build")
     if os.path.exists(target_dir):
         return target_dir
@@ -514,7 +521,7 @@ def args(clear=False):
         "--verbose-http-errors",
         "--enable-stale-production",
         "--producer-name eosio",
-        "--signature-provider " + config.eosio_key_public() + "=KEY:" 
+        "--signature-provider " + config.eosio_key_public() + "=KEY:"
             + config.eosio_key_private(),
         "--plugin eosio::producer_plugin",
         "--plugin eosio::chain_api_plugin",
@@ -542,7 +549,7 @@ def node_start(clear=False, verbosity=None):
         if is_windows_ubuntu():
             args_.insert(0, config.node_exe())
             subprocess.call(
-                ["cmd.exe", "/c", "start", "/MIN", "bash.exe", "-c", 
+                ["cmd.exe", "/c", "start", "/MIN", "bash.exe", "-c",
                 " ".join(args_)])
         elif uname() == "Darwin":
                 subprocess.Popen(
@@ -556,21 +563,21 @@ def node_start(clear=False, verbosity=None):
     else:
         args_.insert(0, config.node_exe())
         subprocess.Popen(
-            " ".join(args_), 
-            stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, 
+            " ".join(args_),
+            stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL, shell=True)
 
-    node_probe(verbosity)                    
+    node_probe(verbosity)
 
 
 def node_probe(verbosity=None):
     count = 15
     num = 5
     block_num = None
-    
+
     while True:
         time.sleep(1)
-        
+
         try:
             if setup.node_api == "cleos":
                 import eosfactory.core.cleos as cleos
@@ -594,7 +601,7 @@ def node_probe(verbosity=None):
             '''.format(head_block_num), verbosity)
             break
 
-        count = count - 1        
+        count = count - 1
         if count <= 0:
             raise errors.Error('''
             The local node does not respond.
@@ -606,14 +613,14 @@ def is_local_node_process_running(name=None):
         name = config.node_exe()
 
     response = subprocess.run(
-        'ps aux |  grep -v grep | grep ' + name, shell=True, 
+        'ps aux |  grep -v grep | grep ' + name, shell=True,
         stdout=subprocess.PIPE)
     out = response.stdout.decode("utf-8")
     return name in out
-        
+
 
 def node_stop(verbosity=None):
-    # You can see if the process is a zombie by using top or 
+    # You can see if the process is a zombie by using top or
     # the following command:
     # ps aux | awk '$8=="Z" {print $2}'
 
@@ -636,9 +643,31 @@ Failed to kill {}. Pid is {}.
     else:
         logger.INFO('''
         Local node is stopped {}.
-        '''.format(str(pids)), verbosity)        
+        '''.format(str(pids)), verbosity)
 
-    
+def keosd_stop():
+    keosd_pids = get_keosd_pid()
+    count = 10
+    if keosd_pids:
+        for pid in keosd_pids:
+            os.system("kill " + str(pid))
+        while count > 0:
+            time.sleep(1)
+            if not is_local_node_process_running():
+                break
+            count = count - 1
+
+    if count <= 0:
+        raise errors.Error('''
+    Failed to kill keosd {}. Pid for keosd is {}.
+        '''.format(config.node_exe_name(), str(keosd_pids))
+                           )
+    else:
+        logger.INFO('''
+            Local node is stopped {}.
+            '''.format(str(pids)), verbosity)
+
+
 def node_is_running():
     return not get_pid()
 
