@@ -60,7 +60,7 @@ def wallet_dir():
 def accout_names_2_object_names(sentence):
     if not setup.is_translating:
         return sentence
-        
+
     exceptions = ["eosio"]
     map = account_map()
     for name in map:
@@ -86,6 +86,10 @@ def stop_keosd():
 
 
 def kill_keosd():
+    #response = subprocess.run(
+    #        'ps aux |  grep -v grep | grep ' + name, shell=True,
+    #        stdout=subprocess.PIPE)
+    #out = response.stdout.decode("utf-8")
     os.system("pkill -u pydaemon keosd")
 
 
@@ -128,8 +132,8 @@ def reset(verbosity=None):
 
 def resume(verbosity=None):
     ''' Resume the EOSIO local node.
-    ''' 
-    if not cleos.set_local_nodeos_address_if_none():   
+    '''
+    if not cleos.set_local_nodeos_address_if_none():
         logger.INFO('''
             Not local nodeos is set: {}
         '''.format(setup.nodeos_address()), verbosity)
@@ -192,11 +196,11 @@ def verify_testnet_production():
 def account_map(logger=None):
     '''Return json account map
 
-Attempt to open the account map file named ``setup.account_map``, located 
-in the wallet directory ``wallet_dir()``, to return its json contents. If the 
+Attempt to open the account map file named ``setup.account_map``, located
+in the wallet directory ``wallet_dir()``, to return its json contents. If the
 file does not exist, return an empty json.
 
-If the file is corrupted, offer editing the file with the ``nano`` linux 
+If the file is corrupted, offer editing the file with the ``nano`` linux
 editor. Return ``None`` if the the offer is rejected.
     '''
     wallet_dir_ = wallet_dir()
@@ -216,7 +220,7 @@ editor. Return ``None`` if the the offer is rejected.
             
             Do you want to edit the file?
             '''.format(str(e)))
-                    
+
                 answer = input("y/n <<< ")
                 if answer == "y":
                     edit_account_map()
@@ -226,7 +230,7 @@ editor. Return ``None`` if the the offer is rejected.
         Use the function 'efman.edit_account_map(text_editor="nano")'
         or the corresponding method of any object of the 'eosfactory.wallet.Wallet` 
         class to edit the file.
-                    ''')                    
+                    ''')
                     return None
 
 
@@ -241,7 +245,7 @@ def edit_account_map():
 def save_map(map, file_name):
     map = json.dumps(map, indent=3, sort_keys=True)
     with open(os.path.join(wallet_dir(), file_name), "w") as out:
-        out.write(map)            
+        out.write(map)
 
 
 def edit_map(file_name, text_editor="nano"):
@@ -253,11 +257,11 @@ def edit_map(file_name, text_editor="nano"):
 def read_map(file_name, text_editor="nano"):
     '''Return json account map
 
-Attempt to open the account map file named ``setup.account_map``, located 
-in the wallet directory ``wallet_dir()``, to return its json contents. If the 
+Attempt to open the account map file named ``setup.account_map``, located
+in the wallet directory ``wallet_dir()``, to return its json contents. If the
 file does not exist, return an empty json.
 
-If the file is corrupted, offer editing the file with the ``nano`` linux 
+If the file is corrupted, offer editing the file with the ``nano`` linux
 editor. Return ``None`` if the the offer is rejected.
     '''
     wallet_dir_ = wallet_dir()
@@ -279,7 +283,7 @@ editor. Return ``None`` if the the offer is rejected.
             
             Do you want to edit the file?
             '''.format(str(path), str(e)), is_fatal=False, translate=False)
-                    
+
                 answer = input("y/n <<< ")
                 if answer == "y":
                     import subprocess
@@ -288,5 +292,5 @@ editor. Return ``None`` if the the offer is rejected.
                 else:
                     raise errors.Error('''
                     Use the function 'manager.edit_account_map(text_editor="nano")' to edit the file.
-                    ''', translate=False)                    
+                    ''', translate=False)
                     return None

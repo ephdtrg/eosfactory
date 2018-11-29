@@ -91,7 +91,7 @@ def save_code():
         search = re.compile(r'\'\'\'.*?\'\'\'', flags=re.DOTALL)
         with open(converted, "w") as w:
             w.write(re.sub(search, '', text))
-    except Exception as e: 
+    except Exception as e:
         print(e)
 
     exit()
