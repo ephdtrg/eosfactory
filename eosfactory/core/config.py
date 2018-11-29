@@ -109,7 +109,8 @@ def node_api():
 
 def wsl_root():
     path = config_value(wsl_root_)
-    return path.replace("\\", "/")
+    #return path.replace("\\", "/")
+    return ""
 
 
 def is_nodeos_in_window():

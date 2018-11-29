@@ -9,6 +9,9 @@ import eosfactory.core.config as config
 is_print_command_line = False
 is_print_request = False
 is_print_response = False
+#is_print_command_line = True
+#is_print_request = True
+#is_print_response = True
 is_translating = True
 account_map = "accounts.json"
 password_map = "passwords.json"

@@ -422,6 +422,7 @@ def create_master_account(
     if is_local_testnet_running(account_object):
         put_account_to_wallet_and_on_stack(
             account_object_name, account_object, logger)
+        append_account_methods_and_finish(account_object_name, account_object)
         return
 
     '''

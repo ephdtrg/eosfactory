@@ -86,7 +86,7 @@ def stop_keosd():
 
 
 def kill_keosd():
-    os.system("pkill keosd")
+    os.system("pkill -u pydaemon keosd")
 
 
 class Transaction():

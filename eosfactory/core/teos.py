@@ -453,7 +453,7 @@ def get_pid(name=None):
         name = config.node_exe_name()
 
     child = subprocess.Popen(
-        ['pgrep', '-f', name], stdout=subprocess.PIPE, shell=False)
+        ['pgrep', '-u','pydaemon', '-f', name], stdout=subprocess.PIPE, shell=False)
     response = child.communicate()[0]
     return [int(pid) for pid in response.split()]
 
