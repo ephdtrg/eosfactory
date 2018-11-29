@@ -157,7 +157,7 @@ def node_exe():
 def cli_exe():
     return first_valid_path(cli_exe_)
 
-def wallet_exe()
+def wallet_exe():
     return first_valid_path(wallet_exe_)
 
 

@@ -11,6 +11,7 @@ import eosfactory.core.logger as logger
 import eosfactory.core.errors as errors
 import eosfactory.core.setup as setup
 import eosfactory.core.teos as teos
+import eosfactory.core.config as config
 if setup.node_api == "cleos":
     import eosfactory.core.cleos as cleos
 elif setup.node_api == "eosjs":
@@ -86,11 +87,13 @@ def stop_keosd():
 
 
 def kill_keosd():
-    #response = subprocess.run(
-    #        'ps aux |  grep -v grep | grep ' + name, shell=True,
-    #        stdout=subprocess.PIPE)
-    #out = response.stdout.decode("utf-8")
-    os.system("pkill -u pydaemon keosd")
+    keosd_name = config.wallet_exe()
+    response = subprocess.run(
+            'ps aux |  grep -v grep | grep ' + keosd_name, shell=True,
+            stdout=subprocess.PIPE)
+    out = response.stdout.decode("utf-8")
+    print(out)
+    #os.system("pkill -u pydaemon keosd")
 
 
 class Transaction():
