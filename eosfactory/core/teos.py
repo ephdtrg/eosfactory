@@ -645,7 +645,8 @@ Failed to kill {}. Pid is {}.
         Local node is stopped {}.
         '''.format(str(pids)), verbosity)
 
-def keosd_stop():
+
+def keosd_stop(verbosity=None):
     keosd_pids = get_keosd_pid()
     count = 10
     if keosd_pids:
