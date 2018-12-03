@@ -665,7 +665,7 @@ def keosd_stop():
     else:
         logger.INFO('''
             Local node is stopped {}.
-            '''.format(str(pids)), verbosity)
+            '''.format(str(keosd_pids)), verbosity)
 
 
 def node_is_running():
