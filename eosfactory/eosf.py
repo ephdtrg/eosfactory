@@ -45,7 +45,7 @@ ContractBuilder = contract.ContractBuilder
 project_from_template = contract.project_from_template
 
 reboot = manager.reboot
-reset = manager.reset
+#reset = manager.reset
 resume = manager.resume
 stop = manager.stop
 
