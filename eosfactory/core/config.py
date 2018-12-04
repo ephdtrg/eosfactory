@@ -163,7 +163,7 @@ def wallet_exe():
     return first_valid_path(wallet_exe_)
 
 def wallet_name():
-    return first_valid_path(wallet_name_)
+    return config_value(wallet_name_)
 
 
 def eosio_cpp():
