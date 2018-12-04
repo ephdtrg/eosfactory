@@ -308,6 +308,26 @@ class WalletCreate(interface.Wallet, _Cleos):
         self.printself(is_verbose)
 
 
+class WalletOpenLocal(interface.Wallet, _Cleos):
+    wallet_local = config.wallet_name()
+
+    def __init__(self, name=wallet_local, password="", is_verbose=True):
+        interface.Wallet.__init__(self, name)
+        self.password = None
+        WalletOpen(name, is_verbose=False)
+        wallet_unlock = WalletUnlock(name, password, is_verbose=False)
+        self.json = {}
+        self.name = name
+        self.password = password
+        self.is_created = False
+        self.json["name"] = name
+        self.json["password"] = password
+        self.out_msg = "Restored wallet: {}".format(self.name)
+
+        self.printself(is_verbose)
+
+
+
 class WalletStop(_Cleos):
     '''Stop keosd (doesn't work with nodeos).
     '''

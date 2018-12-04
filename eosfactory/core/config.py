@@ -36,6 +36,8 @@ node_exe_ = (
 
 wallet_exe_ = ("WALLET_EXECUTABLE", [None])
 
+wallet_name_ = ("WALLET_FILE", [None])
+
 # eosio_cpp_ = ("EOSIO_CPP", ["/usr/local/eosio.cdt/bin/eosio-cpp"])
 # eosio_abigen_ = ("EOSIO_ABIGEN", ["/usr/local/eosio.cdt/bin/eosio-abigen"])
 
@@ -159,6 +161,9 @@ def cli_exe():
 
 def wallet_exe():
     return first_valid_path(wallet_exe_)
+
+def wallet_name():
+    return first_valid_path(wallet_name_)
 
 
 def eosio_cpp():
