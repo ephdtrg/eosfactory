@@ -22,7 +22,9 @@ genesis_json_ = ("EOSIO_GENESIS_JSON", ["localnode/genesis.json"])
 data_dir_ = ("LOCAL_NODE_DATA_DIR", ["localnode"])
 config_dir_ = ("LOCAL_NODE_CONFIG_DIR", ["localnode"])
 workspaceEosio_ = ("EOSIO_WORKSPACE", [EOSIO_CONTRACT_DIR])
-keosd_wallet_dir_ = ("KEOSD_WALLET_DIR", ["${HOME}/eosio-wallet/"])
+keosd_wallet_dir_ = ("KEOSD_WALLET_DIR", [None])
+keosd_config_dir_ = ("KEOSD_CONFIG_DIR", [None])
+keosd_data_dir_ = ("KEOSD_DATA_DIR", [None])
 chain_state_db_size_mb_ = ("EOSIO_SHARED_MEMORY_SIZE_MB", ["200"])
 node_api_ = ("NODE_API", ["cleos"])
 wsl_root_ = ("WSL_ROOT", [None])
@@ -175,6 +177,12 @@ def abigen_exe():
 
 def keosd_wallet_dir():
     return first_valid_path(keosd_wallet_dir_)
+
+def keosd_config_dir():
+    return first_valid_path(keosd_config_dir_)
+
+def keosd_data_dir():
+    return first_valid_path(keosd_data_dir_)
 
 
 def node_exe_name():

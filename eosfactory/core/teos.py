@@ -654,7 +654,7 @@ def keosd_stop(verbosity=None):
             os.system("kill " + str(pid))
         while count > 0:
             time.sleep(1)
-            if not is_local_node_process_running():
+            if not is_local_keosd_process_running():
                 break
             count = count - 1
 
@@ -667,6 +667,27 @@ def keosd_stop(verbosity=None):
         logger.INFO('''
             Local node is stopped {}.
             '''.format(str(keosd_pids)), verbosity)
+
+
+def is_local_keosd_process_running(name=None):
+    if not name:
+        name = config.wallet_exe()
+
+    response = subprocess.run(
+            'ps aux |  grep -v grep | grep ' + name, shell=True,
+            stdout=subprocess.PIPE)
+    out = response.stdout.decode("utf-8")
+    return name in out
+
+
+def keosd_launch():
+    wallet_binary = config.wallet_exe()
+    wallet_binary.extend(["--config-dir", config.keosd_config_dir()])
+    wallet_binary.extend(["--data-dir", config.keosd_data_dir()])
+    subprocess.Popen(
+            "{command} ".format(command=wallet_binary),
+            stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL, shell=True)
 
 
 def node_is_running():
