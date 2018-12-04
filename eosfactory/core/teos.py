@@ -450,10 +450,11 @@ def get_pid(name=None):
     []
     """
     if not name:
-        name = config.node_exe_name()
+        #name = config.node_exe_name()
+        nodeos_path = config.node_exe()
 
     child = subprocess.Popen(
-        ['pgrep', '-u','pydaemon', '-f', name], stdout=subprocess.PIPE, shell=False)
+        ['pgrep', '-u','pydaemon', '-f', nodeos_path], stdout=subprocess.PIPE, shell=False)
     response = child.communicate()[0]
     return [int(pid) for pid in response.split()]
 
@@ -660,8 +661,8 @@ def keosd_stop(verbosity=None):
 
     if count <= 0:
         raise errors.Error('''
-    Failed to kill keosd {}. Pid for keosd is {}.
-        '''.format(config.node_exe_name(), str(keosd_pids))
+    Failed to kill keosd. Pid for keosd is {}.
+        '''.format(str(keosd_pids))
                            )
     else:
         logger.INFO('''
