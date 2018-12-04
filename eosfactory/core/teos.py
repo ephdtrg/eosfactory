@@ -681,11 +681,12 @@ def is_local_keosd_process_running(name=None):
 
 
 def keosd_launch():
-    wallet_binary = config.wallet_exe()
+    wallet_binary = [config.wallet_exe()]
     wallet_binary.extend(["--config-dir", config.keosd_config_dir()])
     wallet_binary.extend(["--data-dir", config.keosd_data_dir()])
+    print(" ".join(wallet_binary))
     subprocess.Popen(
-            "{command} ".format(command=wallet_binary),
+            wallet_binary,
             stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL, shell=True)
 
