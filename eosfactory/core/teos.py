@@ -684,7 +684,7 @@ def keosd_launch():
     wallet_binary = [config.wallet_exe()]
     wallet_binary.extend(["--config-dir", config.keosd_config_dir()])
     wallet_binary.extend(["--data-dir", config.keosd_data_dir()])
-    print(" ".join(wallet_binary))
+    #print(" ".join(wallet_binary))
     subprocess.Popen(
             wallet_binary,
             stdin=subprocess.DEVNULL,
