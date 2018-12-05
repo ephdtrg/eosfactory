@@ -127,6 +127,7 @@ def reset(verbosity=None):
     clear_testnet_cache()
     teos.node_start(clear=True, verbosity=verbosity)
     teos.keosd_launch()
+    sleep(2)
 
 
 def resume(verbosity=None):
