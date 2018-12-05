@@ -6,6 +6,7 @@
 import sys
 import os
 import json
+import time
 
 
 import eosfactory.core.logger as logger
@@ -127,7 +128,7 @@ def reset(verbosity=None):
     clear_testnet_cache()
     teos.node_start(clear=True, verbosity=verbosity)
     teos.keosd_launch()
-    sleep(2)
+    time.sleep(2)
 
 
 def resume(verbosity=None):
