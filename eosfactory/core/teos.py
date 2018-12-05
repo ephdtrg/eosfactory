@@ -453,7 +453,7 @@ def get_pid(name=None):
         name = config.node_exe_name()
 
     child = subprocess.Popen(
-        ['pgrep', '-u','pydaemon', '-f', name], stdout=subprocess.PIPE, shell=False)
+        ['pgrep', '-u',config.eosfactory_user(), '-f', name], stdout=subprocess.PIPE, shell=False)
     response = child.communicate()[0]
     return [int(pid) for pid in response.split()]
 
@@ -461,7 +461,7 @@ def get_keosd_pid():
     keosd_path = config.wallet_exe()
 
     child = subprocess.Popen(
-            ['pgrep', '-u', 'pydaemon', '-f', keosd_path], stdout=subprocess.PIPE, shell=False)
+            ['pgrep', '-u', config.eosfactory_user(), '-f', keosd_path], stdout=subprocess.PIPE, shell=False)
     response = child.communicate()[0]
     return [int(pid) for pid in response.split()]
 
