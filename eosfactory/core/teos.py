@@ -687,8 +687,10 @@ def keosd_launch():
     print(" ".join(wallet_binary))
     subprocess.Popen(
             wallet_binary,
-            stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL, shell=True)
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            cwd=str(pathlib.Path(config.wallet_exe()).parent))
 
 
 def node_is_running():
