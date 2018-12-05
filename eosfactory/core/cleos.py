@@ -36,7 +36,7 @@ class _Cleos():
         set_local_nodeos_address_if_none()
         cl.extend(["--url", setup.nodeos_address()])
         cl.append("--no-auto-keosd")
-        cl.extend(["--wallet-url", config.http_wallet_address()])
+        cl.extend(["--wallet-url", "http://{}".format(config.http_wallet_address())])
 
         if setup.is_print_request:
             cl.append("--print-request")
