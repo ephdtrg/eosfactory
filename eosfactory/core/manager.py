@@ -126,6 +126,7 @@ def reset(verbosity=None):
     account.reboot()
     clear_testnet_cache()
     teos.node_start(clear=True, verbosity=verbosity)
+    teos.keosd_launch()
 
 
 def resume(verbosity=None):
@@ -143,6 +144,7 @@ def stop(verbosity=None):
     ''' Stops all running EOSIO nodes.
     '''
     teos.node_stop(verbosity)
+    teos.keosd_stop(verbosity)
 
 
 def status():

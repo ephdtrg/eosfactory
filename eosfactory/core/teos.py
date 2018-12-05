@@ -660,12 +660,12 @@ def keosd_stop(verbosity=None):
 
     if count <= 0:
         raise errors.Error('''
-    Failed to kill keosd {}. Pid for keosd is {}.
-        '''.format(config.node_exe_name(), str(keosd_pids))
+    Failed to kill keosd. Pid for keosd is {}.
+        '''.format(str(keosd_pids))
                            )
     else:
         logger.INFO('''
-            Local node is stopped {}.
+            Local keosd is stopped {}.
             '''.format(str(keosd_pids)), verbosity)
 
 
