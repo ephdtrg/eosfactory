@@ -449,11 +449,10 @@ def get_pid(name=None):
     >>> get_process_id('non-existent process')
     []
     """
-    if not name:
-        name = config.node_exe_name()
+    nodeos_path = config.node_exe()
 
     child = subprocess.Popen(
-        ['pgrep', '-u',config.eosfactory_user(), '-f', name], stdout=subprocess.PIPE, shell=False)
+        ['pgrep', '-u',config.eosfactory_user(), '-f', nodeos_path], stdout=subprocess.PIPE, shell=False)
     response = child.communicate()[0]
     return [int(pid) for pid in response.split()]
 
